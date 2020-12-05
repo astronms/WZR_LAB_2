@@ -3,7 +3,8 @@
     The main module prepared for state prediction topic
 ****************************************************/
 
-bool if_prediction_test = false;
+#include <string>
+bool if_prediction_test = true;
 bool if_delays = false;
 bool if_shadow = true;
 // test prediction scenario - e.g. benchmark to compare different prediction algorithms
@@ -39,7 +40,8 @@ float fDt;                                 // average time between two consecuti
 										   // hardware or processes number differences between computers 
 long time_of_cycle, number_of_cyc=0;       // variables supported fDt calculation
 long time_start = clock();           
-long time_last_send = 0;             
+long time_last_send = 0;
+long time_last_received = 0;
 
 multicast_net *multi_reciv;          // object (see net module) to recive messages from other applications
 multicast_net *multi_send;           // ...  to send messages ...
@@ -77,12 +79,15 @@ struct Frame                                      // The main structure of net c
 // The function of handling the message receiving thread
 DWORD WINAPI ReceiveThreadFun(void *ptr)
 {
+	
 	multicast_net *pmt_net = (multicast_net*)ptr;  // the pointer to the object of multicast_net class (see net module)
 	Frame frame;
 
 	while (1)
 	{
-		int frame_size = pmt_net->reciv((char*)&frame, sizeof(Frame));   // waiting for frame 
+		int frame_size = pmt_net->reciv((char*)&frame, sizeof(Frame));
+
+		// waiting for frame 
 		ObjectState state = frame.state;
 
 		//fprintf(f, "odebrano stan iID = %d, ID dla mojego obiektu = %d\n", frame.iID, my_vehicle->iID);
@@ -93,7 +98,7 @@ DWORD WINAPI ReceiveThreadFun(void *ptr)
 
 		if ((if_shadow) || (frame.iID != my_vehicle->iID))         
 		{
-			
+			time_last_received = clock();
 			if ((movable_objects.size() == 0) || (movable_objects[frame.iID] == NULL))       
 				
 			{
@@ -224,11 +229,13 @@ void VirtualWorldCycle()
 		MovableObject *veh = it->second;
 		if (veh)
 		{
-
-			//veh->state.vPos = ...
-			//veh->state.vV = ....
-			//veh->state.qOrient = ....
-			//veh->state.vV_ang = ....
+			quaternion qObrot = AsixToQuat(veh->state.vA_ang, veh->state.vA_ang.length());
+			float deltaTime = (float)((clock() - time_last_received)/CLOCKS_PER_SEC);
+			veh->state.vPos = veh->state.vPos + veh->state.vV * deltaTime;
+			//veh->state.vV = my_vehicle->state.vV;
+			//veh->state.vV = my_vehicle->state.vV;
+			veh->state.qOrient = qObrot*veh->state.qOrient;
+			//veh->state.vV_ang = my_vehicle->state.vV_ang;
 		}
 	}
 	//Release the Critical section
