@@ -7,6 +7,7 @@
 bool if_prediction_test = true;
 bool if_delays = false;
 bool if_shadow = true;
+float correction_level = 1;
 // test prediction scenario - e.g. benchmark to compare different prediction algorithms
 // {time [s], force [N], wheel turning speed [rad/s], breaking degree} 
 float test_scenario[][4] = { { 9.5, 100, 0, 0 }, { 5, 20, -0.25 / 8, 0 }, { 0.5, 0, 0, 1.0 }, { 5, 60, 0.25 / 8, 0 }, { 15, 100, 0, 0 } };
@@ -229,13 +230,28 @@ void VirtualWorldCycle()
 		MovableObject *veh = it->second;
 		if (veh)
 		{
-			quaternion qObrot = AsixToQuat(veh->state.vA_ang, veh->state.vA_ang.length());
-			float deltaTime = (float)((clock() - time_last_received)/CLOCKS_PER_SEC);
-			veh->state.vPos = veh->state.vPos + veh->state.vV * deltaTime;
-			//veh->state.vV = my_vehicle->state.vV;
-			//veh->state.vV = my_vehicle->state.vV;
-			veh->state.qOrient = qObrot*veh->state.qOrient;
-			//veh->state.vV_ang = my_vehicle->state.vV_ang;
+			Vector3 w_obrot = veh->state.vV_ang * fDt + veh->state.vA_ang * fDt * fDt / 2;
+			quaternion q_obrot = AsixToQuat(w_obrot.znorm(), w_obrot.length());
+			veh->state.qOrient = q_obrot * veh->state.qOrient;
+
+			Vector3 przod = veh->state.qOrient.rotate_vector(Vector3(1, 0, 0));
+			Vector3 gora = veh->state.qOrient.rotate_vector(Vector3(0, 1, 0));
+			Vector3 prawo = veh->state.qOrient.rotate_vector(Vector3(0, 0, 1));
+
+			Vector3 vV_przod = przod * ((veh->state.vV) ^ przod);
+			Vector3 vV_gora = gora * ((veh->state.vV) ^ gora);
+			Vector3 vV_prawo = prawo * ((veh->state.vV) ^ prawo);
+
+			Vector3 vA_przod = przod * ((veh->state.vA) ^ przod);
+			Vector3 vA_gora = gora * ((veh->state.vA) ^ gora);
+			Vector3 vA_prawo = prawo * ((veh->state.vA) ^ prawo);
+
+			Vector3 vV = vV_przod + vV_gora + vV_prawo;
+			Vector3 vA = vA_przod + vA_gora;
+
+			veh->state.vPos += (vV * fDt) + vA * fDt * fDt * 1 / 2;
+			veh->state.vV += vA * fDt;
+			
 		}
 	}
 	//Release the Critical section

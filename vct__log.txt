@@ -234,3 +234,67 @@ poczatek interakcji
 my_vehicle->iID = 41
 After time 35.00[s]  avg.freq = 1.00[frame/s]  avg.dist = 11.571[m]  avg.ang.dist = 4.652[deg]
 End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 858
+poczatek interakcji
+my_vehicle->iID = 41
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 953
+poczatek interakcji
+my_vehicle->iID = 41
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 302
+poczatek interakcji
+my_vehicle->iID = 41
+After time 35.00[s]  avg.freq = 1.00[frame/s]  avg.dist = 1.708[m]  avg.ang.dist = 3.688[deg]
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 988
+poczatek interakcji
+my_vehicle->iID = 41
+After time 35.01[s]  avg.freq = 1.00[frame/s]  avg.dist = 1.759[m]  avg.ang.dist = 5.722[deg]
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 785
+poczatek interakcji
+my_vehicle->iID = 41
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 883
+poczatek interakcji
+my_vehicle->iID = 41
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 984
+poczatek interakcji
+my_vehicle->iID = 41
+After time 35.01[s]  avg.freq = 1.00[frame/s]  avg.dist = 1.643[m]  avg.ang.dist = 4.719[deg]
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 6
+poczatek interakcji
+my_vehicle->iID = 41
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 107
+poczatek interakcji
+my_vehicle->iID = 41
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 205
+poczatek interakcji
+my_vehicle->iID = 41
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 813
+poczatek interakcji
+my_vehicle->iID = 41
+End of interaction.
+height_map terrain: number_of_rows = 235, number_of_columns = 231
+my_vehicle->iID = 65
+poczatek interakcji
+my_vehicle->iID = 41
+After time 35.01[s]  avg.freq = 1.00[frame/s]  avg.dist = 1.777[m]  avg.ang.dist = 3.260[deg]
+End of interaction.
